@@ -29,11 +29,13 @@
                 
             } else {
                 
-                NSMutableArray *items = [[NSMutableArray alloc] init];
-                [items addObject:[elementDict objectForKey:[TBXML elementName:childElement]]];
-                [items addObject:[[self dictionaryWithXMLNode:childElement] objectForKey:[TBXML elementName:childElement]]];
-                [elementDict setObject:[NSArray arrayWithArray:items] forKey:[TBXML elementName:childElement]];
-                items = nil;
+                if ([elementDict objectForKey:[TBXML elementName:childElement]] && [[self dictionaryWithXMLNode:childElement] objectForKey:[TBXML elementName:childElement]]) {
+                    NSMutableArray *items = [[NSMutableArray alloc] init];
+                    [items addObject:[elementDict objectForKey:[TBXML elementName:childElement]]];
+                    [items addObject:[[self dictionaryWithXMLNode:childElement] objectForKey:[TBXML elementName:childElement]]];
+                    [elementDict setObject:[NSArray arrayWithArray:items] forKey:[TBXML elementName:childElement]];
+                    items = nil;
+                }
             }
             
             childElement = childElement->nextSibling;
