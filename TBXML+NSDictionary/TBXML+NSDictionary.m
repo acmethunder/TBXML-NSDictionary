@@ -21,12 +21,14 @@
                 [elementDict addEntriesFromDictionary:[self dictionaryWithXMLNode:childElement]];
                 
             } else if ([[elementDict objectForKey:[TBXML elementName:childElement]] isKindOfClass:[NSArray class]]) {
-                
-                NSMutableArray *items = [[NSMutableArray alloc] initWithArray:[elementDict objectForKey:[TBXML elementName:childElement]]];
-                [items addObject:[[self dictionaryWithXMLNode:childElement] objectForKey:[TBXML elementName:childElement]]];
-                [elementDict setObject:[NSArray arrayWithArray:items] forKey:[TBXML elementName:childElement]];
-                items = nil;
-                
+
+                if ([[self dictionaryWithXMLNode:childElement] objectForKey:[TBXML elementName:childElement]]) {
+                    NSMutableArray *items = [[NSMutableArray alloc] initWithArray:[elementDict objectForKey:[TBXML elementName:childElement]]];
+                    [items addObject:[[self dictionaryWithXMLNode:childElement] objectForKey:[TBXML elementName:childElement]]];
+                    [elementDict setObject:[NSArray arrayWithArray:items] forKey:[TBXML elementName:childElement]];
+                    items = nil;
+                }
+
             } else {
                 
                 if ([elementDict objectForKey:[TBXML elementName:childElement]] && [[self dictionaryWithXMLNode:childElement] objectForKey:[TBXML elementName:childElement]]) {
